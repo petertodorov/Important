@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+class TelescopicMatrix
+{
+    static void Main(string[] args)
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[,] matrix = FillMatrix(n);
+        int checker = 1;
+        int valueToCheck = 0;
+        bool isTelescopic = true;
+        PrintMatrix(matrix, n);
+
+     isTelescopic=IsTelescopic(matrix, isTelescopic,checker,n,valueToCheck);
+        
+        if (isTelescopic)
+        {
+            Console.WriteLine($"The matrix is telescopic");
+        }
+        else
+        {
+            Console.WriteLine($"The matrix is not telescopic");
+        }
+    }
+
+    private static bool IsTelescopic(int[,] matrix, bool isTelescopic,int checker,int n,int valueToCheck)
+    {
+        for (int i = 0; i < n / 2; i++)
+        {
+            int x = i;
+            int y = i;
+            while (y < n - 1 - i)
+            {
+                if (valueToCheck != matrix[x, y])
+                {
+                    isTelescopic = false;
+                }
+                y++;
+            }
+            while (x < n - 1 - i)
+            {
+                if (valueToCheck != matrix[x, y])
+                {
+                    isTelescopic = false;
+                }
+                x++;
+            }
+            while (y > i)
+            {
+                if (valueToCheck != matrix[x, y])
+                {
+                    isTelescopic = false;
+                }
+                y--;
+            }
+            while (x > i)
+            {
+                if (valueToCheck != matrix[x, y])
+                {
+                    isTelescopic = false;
+                }
+                x--;
+            }
+            checker++;
+        }
+        if (n % 2 == 0 || matrix[n / 2, n / 2] == checker)
+        {
+            isTelescopic = true;
+        }
+        return isTelescopic;
+    }
+
+    private static void PrintMatrix(int[,] matrix, int n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                Console.Write("{0}", matrix[i, j]);
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static int[,] FillMatrix(int n)
+    {
+        int[,] matrix = new int[n, n];
+        for (int x = 0; x < n; x++)
+        {
+            for (int y = 0; y < n; y++)
+            {
+                Console.Write("element - [{0},{1}] : ", x, y);
+                matrix[x, y] = int.Parse(Console.ReadLine());
+            }
+        }
+        return matrix;
+    }
+}
